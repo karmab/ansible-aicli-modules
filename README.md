@@ -16,7 +16,7 @@ The modules are found in the [library folder](./library)
 Use the Galaxy client to install the role:
 
 ```
-$ ansible-galaxy install karmabs.aicli-modules
+$ ansible-galaxy install karmab.ansible_aicli_modules
 ```
 
 ## How to use 
