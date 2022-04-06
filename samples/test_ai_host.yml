@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+  - name: Update host
+    ai_host:
+      state: updated
+      name: localhost
+      parameters:
+       name: myclu
+    register: result
+  - debug: var=result 
