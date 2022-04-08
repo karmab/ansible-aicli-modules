@@ -56,6 +56,8 @@ Note that cluster state can be:
 - present
 - updated (to run an update)
 - installed (to wait for install to be completed)
+- started (to start deployment once requirement are fulfilled)
+- stopped (to stop a failing deployment)
 
 ### ai_cluster_info
 
