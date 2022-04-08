@@ -41,7 +41,7 @@ def main():
     argument_spec = {
         "state": {
             "default": "present",
-            "choices": ['present', 'absent', 'installed', 'updated'],
+            "choices": ['present', 'absent', 'installed', 'updated', 'started', 'stopped'],
             "type": 'str'
         },
         "url": {"type": "str", "default": "https://api.openshift.com"},
@@ -59,7 +59,7 @@ def main():
     exists = True if cluster in clusters else False
     state = module.params['state']
     changed, skipped = True, False
-    if state in ['present', 'updated', 'installed']:
+    if state in ['present', 'updated', 'installed', 'started', 'stopped']:
         if not exists:
             infraenv = f"{cluster}_infra-env"
             infraenv_overrides = overrides.copy()
@@ -73,6 +73,10 @@ def main():
             meta = ai.update_cluster(cluster, overrides)
         elif 'state' == 'installed':
             meta = ai.wait_cluster(cluster)
+        elif 'state' == 'started':
+            meta = ai.start_cluster(cluster)
+        elif 'state' == 'stopped':
+            meta = ai.stop_cluster(cluster)
     elif exists:
         meta = ai.delete_cluster(cluster)
         for infra_env in ai.list_infra_envs():
