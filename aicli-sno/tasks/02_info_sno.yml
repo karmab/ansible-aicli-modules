@@ -1,0 +1,7 @@
+---
+- name: Get info about AI cluster
+  ai_cluster_info:
+    name: "{{ cluster_name }}"
+  register: result
+  tags: info
+- debug: var=result['id']

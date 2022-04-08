@@ -1,0 +1,7 @@
+---
+- name: Get info about AI infraenv
+  ai_infraenv_info:
+    name: "{{ cluster_name }}"
+  register: result
+  tags: info_env
+- debug: var=result['download_url']
