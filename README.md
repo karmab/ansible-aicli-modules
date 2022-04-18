@@ -24,6 +24,7 @@ $ ansible-galaxy install karmab.ansible_aicli_modules
 1. `openshift_pull.json` from [cloud.redhat.com](https://console.redhat.com/openshift/install/pull-secret)
 2. `ocm token` and export it as a `OFFILINE TOKEN` from [Openshift Offline Token](https://console.redhat.com/openshift/token) 
 
+**WARNING**: MacOS users could receive an error when using the [homebrew formulae](https://formulae.brew.sh/formula/ansible) for Ansible. When using the `brew` version of Ansible, a `ModuleNotFoundError` for `ailib` will occur. It is strongly recommended to use `pip3` to install Ansible for MacOS.
 
 ## How to use 
 
