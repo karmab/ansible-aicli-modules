@@ -1,0 +1,12 @@
+---
+- name: Install a SNO Cluster using ai-cli 
+  ai_cluster:
+    state: present 
+    name: "{{ cluster_name }}"
+    parameters:
+      network_type: OVNKubernetes
+      pull_secret: ~/openshift_pull.json
+      sno: true 
+  register: result
+  tags: new
+- debug: var=result
