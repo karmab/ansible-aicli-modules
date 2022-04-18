@@ -125,6 +125,23 @@ Note that cluster state can be:
 |------------|---------|----------------------|
 |name        |true     |                      |
 
+### Role to generate `discovery.iso` 
+
+We can make use of Ansible role to create a cluster and generate the `discovery_image.iso` using [Ansible role](https://github.com/DirectedSoul1/ansible-aicli-modules)
+
+Sample `playbook.yml` is as shown below 
+
+```
+---
+- name: Playbook to generate discovery ISO
+  hosts: localhost
+  roles:
+  - aicli-sno
+```
+
+Usage `ansible-playbook playbook.yml` 
+
+
 ## License
 
 Apache V2
