@@ -1,0 +1,5 @@
+---
+- name: aicli SNO Installation Playbook
+  hosts: localhost
+  roles:
+  - aicli-sno
