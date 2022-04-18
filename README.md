@@ -11,7 +11,7 @@ The modules are found in the [library folder](./library)
 - Ansible
 - [aicli](https://github.com/karmab/aicli)
 
-**Note**: Download the latest version of Ansible(https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) 
+**Note**: Download the latest version of [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) 
 
 ## Installation and use
 
@@ -21,9 +21,10 @@ Use the Galaxy client to install the role:
 $ ansible-galaxy install karmab.ansible_aicli_modules
 ```
 **Note**: Before using the playbooks, please make sure to download these
-1. `openshift_pull.json` from cloud.redhat.com(https://console.redhat.com/openshift/install/pull-secret)
-2. `ocm token` and export it as a `OFFILINE TOKEN` from Openshift Offline Token(https://console.redhat.com/openshift/token) 
+1. `openshift_pull.json` from [cloud.redhat.com](https://console.redhat.com/openshift/install/pull-secret)
+2. `ocm token` and export it as a `OFFILINE TOKEN` from [Openshift Offline Token](https://console.redhat.com/openshift/token) 
 
+**WARNING**: MacOS users could receive an error when using the [homebrew formulae](https://formulae.brew.sh/formula/ansible) for Ansible. When using the `brew` version of Ansible, a `ModuleNotFoundError` for `ailib` will occur. It is strongly recommended to use `pip3` to install Ansible for MacOS.
 
 ## How to use 
 
@@ -62,6 +63,8 @@ Note that cluster state can be:
 - present
 - updated (to run an update)
 - installed (to wait for install to be completed)
+- started (to start deployment once requirement are fulfilled)
+- stopped (to stop a failing deployment)
 
 ### ai_cluster_info
 
