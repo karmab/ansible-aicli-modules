@@ -1,0 +1,23 @@
+---
+# tasks file for aicli-sno
+---
+# tasks file for aicli-sno
+- include_tasks: 00_install_package.yml
+  tags:
+  - package_install
+
+- include_tasks: 01_install_sno.yml 
+  tags: 
+  - install_sno
+
+- include_tasks: 02_info_sno.yml
+  tags:
+  - info_sno
+
+- include_tasks: 03_infraenv_sno.yml
+  tags:
+  - create_infraenv
+
+- include_tasks: 04_info_infraenv_sno.yml
+  tags:
+  - info_infraenv
