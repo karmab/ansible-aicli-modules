@@ -1,0 +1,8 @@
+---
+- name: Get the ISO from Assisted Installer UI
+  get_url:
+    url: "{{ iso_url }}"                                                                                                                                  
+    dest: /var/tmp/discovery_image.iso
+    mode: 0755
+  tags:
+  - download_iso

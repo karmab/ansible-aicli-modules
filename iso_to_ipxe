@@ -1,0 +1,81 @@
+#! /bin/bash -e
+
+# USAGE: iso_to_pxe path/to/image.iso
+#
+# Creates ipxe files in either $PWD/ipxe or the value passes as IPXE_DIR.
+#
+# set BASE_URL environment variable to the URL from which ipxe files will be served. Required.
+# set ISO_URL if you want the script to download the image and save it to the specified image path. Optional.
+# set IPXE_DIR to specify the directory where ipxe files should be created. Dir is created if necessary. Defaults to "./ipxe".
+
+IMAGE=${IMAGE:-$1}
+
+if [ -z "$IMAGE" ]; then
+  echo "You must provide the image path as the first argument, or set the IMAGE environment variable."
+  echo "usage: $0 path/to/image.iso"
+  exit 1
+fi
+
+IPXE_DIR=${IPXE_DIR:-$PWD/ipxe}
+KERNEL_OPTS=${KERNEL_OPTS:-'random.trust_cpu=on rd.luks.options=discard ignition.firstboot ignition.platform.id=metal console=tty1 console=ttyS1,115200n8 coreos.inst.persistent-kargs="console=tty1 console=ttyS1,115200n8"'}
+
+if [ -z "$BASE_URL" ]; then
+  echo "BASE_URL must be set to the URL from which ipxe files will be served."
+  exit 1
+fi
+
+#check that data directory exists if running in a container
+if [ "$REQUIRE_DATA_DIR" ] && [ ! -d /data ]; then
+  echo usage: podman -v local_directory:/data:Z
+  exit 1
+fi
+
+#check if image is already available or download it
+if [ -f "$IMAGE" ]; then
+  echo "Using pre-downloaded ISO `basename $IMAGE`."
+else 
+  if [ -z $ISO_URL ]; then
+    echo "ISO ${IMAGE} wasn't found on local path, and no ISO_URL environment variable specified - aborting"
+    exit 1
+  else
+    echo "Attempting to download ISO from ${ISO_URL}"
+    curl -o $IMAGE "$ISO_URL"
+  fi
+fi
+
+mkdir -p $IPXE_DIR
+
+echo Configuring IPXE 
+
+cat > $IPXE_DIR/ipxe << EOF
+#!ipxe                                                                                                                                                                                    
+set live_url ${BASE_URL}
+initrd --name main ${live_url}/initrd.img
+kernel \${live_url}/vmlinuz initrd=main ignition.config.url=\${live_url}/config.ign coreos.live.rootfs_url=\${live_url}/rootfs.img ${KERNEL_OPTS}
+boot       
+EOF
+
+export PXE_IMAGES=`isoinfo -i $IMAGE -f |grep -i images/pxeboot`
+for img in $PXE_IMAGES; do
+  export name=`basename ${img,,} | sed 's/\;1//' | sed 's/\.$//'`
+  echo extracting $name
+  isoinfo -i $IMAGE -x $img > $IPXE_DIR/$name
+done
+ 
+echo writing custom user ignition
+
+# Check if ISO is gzipped or xzed
+IGNITION_IMG_TYPE=$(isoinfo -i $IMAGE -x '/IMAGES/IGNITION.IMG;1' | file - | awk '{print $2}')
+
+if [ $IGNITION_IMG_TYPE == "gzip" ]
+then
+  isoinfo -i $IMAGE -x '/IMAGES/IGNITION.IMG;1' | gunzip | cpio -i --to-stdout > $IPXE_DIR/config.ign
+elif [ $IGNITION_IMG_TYPE == "XZ" ]
+then
+  echo '{' > $IPXE_DIR/config.ign
+  isoinfo -i $IMAGE -x '/IMAGES/IGNITION.IMG;1' | xz -dc - | sed '1d; $d' >> $IPXE_DIR/config.ign
+  echo '}' >> $IPXE_DIR/config.ign
+else
+  echo "Unknown ignition file type"
+  exit 1
+fi
