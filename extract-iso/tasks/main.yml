@@ -1,0 +1,17 @@
+---
+# tasks file for extract-iso
+- include_tasks: 00_get_url.yml
+  tags:
+  - download_iso
+
+- include_tasks: 01_copy_iso.yml 
+  tags:
+  - copy_iso 
+
+- include_tasks: 02_extract_iso.yml
+  tags: 
+  - ext_iso
+
+- include_tasks: 03_serve_iso.yml 
+  tags:
+  - serve_iso

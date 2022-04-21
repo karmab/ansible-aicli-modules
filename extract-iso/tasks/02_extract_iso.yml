@@ -1,0 +1,7 @@
+---
+- name: extrct the discovery ISO into html folder 
+  ansible.builtin.shell: cd /usr/share/nginx/html && Ipv4=http://$(hostname -I | awk '{ print $1 }'):8080 && BASE_URL=$Ipv4 /root/iso_to_ipxe /var/tmp/discovery_image.iso 
+  args:
+    warn: yes
+  tags:
+  - ext_iso

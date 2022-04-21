@@ -1,0 +1,36 @@
+---
+- name: Install required packages on bastion node ( Rocky Linux )
+  yum: 
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  loop:
+    - vim
+    - wget
+    - nginx 
+    - xz
+    - gzip 
+    - genisoimage 
+    - file
+    - cpio
+  become: True
+  when: ansible_os_family == 'RedHat'
+  tags: yum_install 
+
+- name: Install required packages on bastion node ( Ubuntu ) 
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  loop:
+    - vim
+    - wget
+    - nginx
+    - xz-utils
+    - gzip
+    - genisoimage
+    - file
+    - cpio
+  become: True
+  when: ansible_os_family == 'Debian'
+  tags: apt_install

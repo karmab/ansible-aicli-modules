@@ -1,0 +1,7 @@
+---
+- name: Copy the ISO to IPXE script to remote location
+  copy:
+    src: /root/iso_to_ipxe
+    dest: /var/tmp/iso_to_ipxe
+  tags:
+  - cpy_iso

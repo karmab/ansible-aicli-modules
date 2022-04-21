@@ -1,0 +1,11 @@
+---
+- name: Serve the contents of ipxe folder to html 
+  ansible.builtin.copy:
+    src: /usr/share/nginx/html/ipxe/
+    dest: /usr/share/nginx/html/
+    owner: root
+    group: root
+    mode: '0755'
+    backup: yes
+  tags:
+  - serve_iso
