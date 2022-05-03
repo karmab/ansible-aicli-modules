@@ -67,16 +67,16 @@ def main():
                 infraenv_overrides = overrides.copy()
                 infraenv_overrides['cluster'] = cluster
                 ai.create_infra_env(infraenv, infraenv_overrides)
-        elif 'state' == 'present':
+        elif state == 'present':
             changed, skipped = False, True
             meta = {'result': 'skipped'}
-        elif 'state' == 'updated':
+        elif state == 'updated':
             meta = ai.update_cluster(cluster, overrides)
-        elif 'state' == 'installed':
+        elif state == 'installed':
             meta = ai.wait_cluster(cluster)
-        elif 'state' == 'started':
+        elif state == 'started':
             meta = ai.start_cluster(cluster)
-        elif 'state' == 'stopped':
+        elif state == 'stopped':
             meta = ai.stop_cluster(cluster)
     elif exists:
         meta = ai.delete_cluster(cluster)
