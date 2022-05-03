@@ -61,11 +61,12 @@ def main():
     changed, skipped = True, False
     if state in ['present', 'updated', 'installed', 'started', 'stopped']:
         if not exists:
-            infraenv = f"{cluster}_infra-env"
-            infraenv_overrides = overrides.copy()
-            infraenv_overrides['cluster'] = cluster
             meta = ai.create_cluster(cluster, overrides)
-            ai.create_infra_env(infraenv, infraenv_overrides)
+            if overrides.get('infraenv', True):
+                infraenv = f"{cluster}_infra-env"
+                infraenv_overrides = overrides.copy()
+                infraenv_overrides['cluster'] = cluster
+                ai.create_infra_env(infraenv, infraenv_overrides)
         elif 'state' == 'present':
             changed, skipped = False, True
             meta = {'result': 'skipped'}
