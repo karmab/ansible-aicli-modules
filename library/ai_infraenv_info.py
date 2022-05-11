@@ -41,6 +41,10 @@ def main():
     url = module.params['url']
     ai = AssistedClient(url, offlinetoken=offlinetoken)
     meta = ai.info_infra_env(cluster).to_dict()
+    iso_url = meta['download_url']
+    if ai.saas and ai._expired_iso(iso_url):
+        ai.client.get_infra_env_download_url(meta['id'])
+        meta = ai.info_infra_env(cluster).to_dict()
     module.exit_json(changed=False, **meta)
 
 
