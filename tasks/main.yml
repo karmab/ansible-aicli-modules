@@ -2,5 +2,5 @@
 ---
 
 - name: Install aicli
-  ansible.builtin.shell: |
-    pip3 install aicli
+  ansible.builtin.pip:
+    name: aicli>=99.0.202205110654.202103111306
