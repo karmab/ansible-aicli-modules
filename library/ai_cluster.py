@@ -73,10 +73,13 @@ def main():
         elif state == 'updated':
             meta = ai.update_cluster(cluster, overrides)
         elif state == 'installed':
+            if ai.info_cluster(cluster).to_dict()['status'] in ['pending-for-input', 'insufficient']:
+                ai.wait_cluster(cluster, 'ready')
             if ai.info_cluster(cluster).to_dict()['status'] == 'ready':
                 ai.start_cluster(cluster)
             meta = ai.wait_cluster(cluster)
         elif state == 'started':
+            ai.wait_cluster(cluster, 'ready')
             meta = ai.start_cluster(cluster)
         elif state == 'stopped':
             meta = ai.stop_cluster(cluster)
