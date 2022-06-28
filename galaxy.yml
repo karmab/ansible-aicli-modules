@@ -1,0 +1,24 @@
+namespace: karmab
+name: aicli
+version: 1.0.0
+
+readme: README.md
+
+authors:
+- https://github.com/karmab
+
+description: Provides access to aicli - an OpenShift Assisted Installer client
+
+license:
+- Apache-2.0
+
+tags: [ aicli, modules]
+
+dependencies: {}
+
+repository: https://github.com/karmab/ansible-aicli-modules
+documentation: https://github.com/karmab/ansible-aicli-modules#readme
+issues: https://github.com/karmab/aicli
+
+build_ignore: []
+

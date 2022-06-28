@@ -22,7 +22,7 @@ EXAMPLES = '''
 - name: Get info about AI cluster
   ai_infraenv_info:
     name: myclu
- register: result
+  register: result
 '''
 
 

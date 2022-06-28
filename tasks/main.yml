@@ -1,6 +1,0 @@
-# tasks/main.yml
----
-
-- name: Install aicli
-  ansible.builtin.pip:
-    name: aicli>=99.0.202205110654.202103111306
