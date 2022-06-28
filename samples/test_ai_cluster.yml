@@ -1,13 +1,11 @@
 - hosts: localhost
   tasks:
-#  - import_role:
-#        name: karmab.kcli-modules
-  - name: Create a AI cluster
-    ai_cluster:
-      state: absent
-      name: fabien
-      parameters:
-       network_type: OVNKubernetes
-       pull_secret: ~/openshift_pull.json
-    register: result
-  - debug: var=result 
+    - name: Create a AI cluster
+      karmab.aicli.ai_cluster:
+        state: absent
+        name: fabien
+        parameters:
+          network_type: OVNKubernetes
+          pull_secret: ~/openshift_pull.json
+      register: result
+    - debug: var=result
