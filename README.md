@@ -13,7 +13,7 @@ Include this collection in a role or playbook to have access to the modules.
 
 Before using the modules, please make sure to download these
 1. `openshift_pull.json` from [cloud.redhat.com](https://console.redhat.com/openshift/install/pull-secret)
-2. `ocm token` and export it as a `OFFILINE TOKEN` from [Openshift Offline Token](https://console.redhat.com/openshift/token)
+2. `ocm token` and export it as a `OFFLINE TOKEN` from [Openshift Offline Token](https://console.redhat.com/openshift/token)
 
 ## Installation
 
